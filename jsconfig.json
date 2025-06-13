@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",  // This ensures that relative paths are calculated from the root of the project
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
