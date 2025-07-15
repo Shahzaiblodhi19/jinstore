@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import PromoStrip from './components/promoStrip';
 import Header from './components/header';
+import BannerSlider from './components/BannerSlider';
 
 
 export default function TranslatePage() {
@@ -11,7 +12,7 @@ export default function TranslatePage() {
     <div>
       <PromoStrip />
       <Header />
-      
+      <BannerSlider />
     </div>
   );
 }
