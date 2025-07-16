@@ -2087,7 +2087,7 @@ export default function Header() {
             </button>
 
             {/* Navigation Items */}
-            <div className="flex lg:hidden flex-col items-center justify-between gap-6 border-b pl-8 border-[#e5e7eb] w-ful z-100 ">
+            <div className="flex lg:hidden flex-col items-center justify-between gap-6 border-b  border-[#e5e7eb] w-ful z-100 ">
               <div className="flex flex-col items-center gap-6">
                 <Link
                   onClick={() => {

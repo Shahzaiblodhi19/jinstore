@@ -113,7 +113,7 @@ export default function BannerSlider() {
     </div>
 
     {/* Dots */}
-    <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 flex justify-center w-fit bg-white p-2 rounded-full gap-2 z-50">
+    <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 flex justify-center w-fit bg-white p-2 rounded-full gap-2 z-20">
       {slides.map((_, idx) => (
         <button
           key={idx}
