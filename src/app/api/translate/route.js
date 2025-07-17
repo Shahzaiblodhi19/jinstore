@@ -113,7 +113,7 @@ export async function POST(request) {
                 let translatedText = json[0][0][0];
 
                 // Handle special characters if needed (example for Urdu characters)
-                translatedText = translatedText.replace('%', '٪');  // Replace special characters as needed
+                translatedText = translatedText.replace('%', '%');  // Replace special characters as needed
 
                 resolve(translatedText);
               } else {

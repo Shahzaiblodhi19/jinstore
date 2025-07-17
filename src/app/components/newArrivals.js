@@ -1,0 +1,255 @@
+"use client";
+import React from "react";
+import arrival1 from "../assets/arrival1.png";
+import arrival2 from "../assets/arrival2.png";
+import arrival3 from "../assets/arrival3.png";
+import arrival4 from "../assets/arrival4.png";
+import arrival5 from "../assets/arrival5.png";
+import arrival6 from "../assets/arrival6.png";
+import Link from "next/link";
+
+// Sample dynamic data
+const products = [
+  {
+    id: 1,
+    title: "100 Percent Apple Juice – 64 fl oz Bottle",
+    image: arrival1,
+    organic: true,
+    cold: false,
+    discount: 75,
+    currentPrice: 0.5,
+    originalPrice: 1.99,
+    rating: 3,
+  },
+  {
+    id: 2,
+    title: "Great Value Rising Crust Frozen Pizza, Supreme",
+    image: arrival2,
+    organic: false,
+    cold: true,
+    discount: 11,
+    currentPrice: 8.99,
+    originalPrice: 9.99,
+    rating: 3,
+  },
+  {
+    id: 3,
+    title: "Simply Orange Pulp Free Juice – 52 fl oz",
+    image: arrival3,
+    organic: true,
+    cold: false,
+    discount: 41,
+    currentPrice: 2.45,
+    originalPrice: 4.13,
+    rating: 2,
+  },
+  {
+    id: 4,
+    title: "California Pizza Kitchen Margherita, Thin Crust",
+    image: arrival4,
+    organic: false,
+    cold: true,
+    discount: 21,
+    currentPrice: 11.77,
+    originalPrice: 14.77,
+    rating: 3,
+  },
+  {
+    id: 5,
+    title: "Cantaloupe Melon Fresh Organic Cut",
+    image: arrival5,
+    organic: true,
+    cold: false,
+    discount: 59,
+    currentPrice: 1.25,
+    originalPrice: 2.98,
+    rating: 3,
+  },
+  {
+    id: 6,
+    title: "Angel Soft Toilet Paper, 9 Mega Rolls",
+    image: arrival6,
+    organic: false,
+    cold: true,
+    discount: 18,
+    currentPrice: 14.12,
+    originalPrice: 17.12,
+    rating: 3,
+  },
+];
+
+const NewArrivals = () => {
+  return (
+    <section className="pb-10 ">
+      <div className="container mx-auto ">
+        {/* Heading */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="text-[18px] font-bold text-[#030712]">
+              New Arrivals
+            </h2>
+            <p className="text-[13px] text-[#9CA3AF]">
+              Don’t miss this opportunity at a special discount just for this
+              week.
+            </p>
+          </div>
+          <button className="text-[12px] cursor-pointer font-semibold text-[#000] border border-[#E5E7EB] rounded-full px-4 py-2 flex items-center gap-2 hover:gap-3 hover:text-[#fff] hover:bg-[#634C9F] transition-all duration-300">
+            View All{" "}
+            <svg
+              width="14"
+              height="6"
+              viewBox="0 0 14 6"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.3956 2.81796C13.3956 2.78996 13.3839 2.76429 13.3606 2.74096C13.3372 2.71762 13.3116 2.70596 13.2836 2.70596L10.9456 0.367957C10.8522 0.283957 10.7449 0.241957 10.6236 0.241957C10.5022 0.241957 10.3949 0.283957 10.3016 0.367957C10.2082 0.451957 10.1639 0.55929 10.1686 0.689957C10.1732 0.820623 10.2176 0.927957 10.3016 1.01196L11.8836 2.59396H1.31356C1.19223 2.59396 1.0849 2.63596 0.991563 2.71996C0.898229 2.80396 0.851562 2.91829 0.851562 3.06296C0.851562 3.20762 0.893563 3.31962 0.977563 3.39896C1.06156 3.47829 1.17356 3.51796 1.31356 3.51796H11.9396L10.3576 5.09996C10.2736 5.18396 10.2316 5.28896 10.2316 5.41496C10.2316 5.54096 10.2736 5.65062 10.3576 5.74396C10.3856 5.77196 10.4276 5.79762 10.4836 5.82096C10.5396 5.84429 10.5956 5.85596 10.6516 5.85596C10.7076 5.85596 10.7636 5.84429 10.8196 5.82096C10.8756 5.79762 10.9176 5.77196 10.9456 5.74396L13.2836 3.40596C13.3022 3.38729 13.3209 3.36396 13.3396 3.33596C13.3582 3.30796 13.3769 3.29396 13.3956 3.29396C13.4236 3.17262 13.4376 3.07929 13.4376 3.01396C13.4376 2.94862 13.4236 2.88329 13.3956 2.81796Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Grid */}
+        <div className="grid sm:grid-cols-[repeat(auto-fit,minmax(227px,1fr))] grid-cols-2">
+          {products.map((item) => (
+            <div
+              key={item.id}
+              className="border border-[#e5e7eb94] px-4 py-3 bg-white hover:border-[#634C9F] transition-border duration-300 "
+            >
+              <div className="relative mb-4">
+                <Link href={"/"}>
+                  <img
+                    src={item.image.src}
+                    alt={item.title}
+                    className="w-full h-40 object-contain cursor-pointer hover:scale-105 transition-transform duration-300"
+                  />
+                </Link>
+                {/* Discount Badge */}
+                <span className="absolute top-1 bg-[#DC2626] text-[#FEF2F2] text-[10px] font-bold px-2 py-1 rounded-full">
+                 {`${item.discount}%`}
+                </span>
+                <span className="absolute top-1 right-0 cursor-pointer hover:scale-105 transition-transform duration-300">
+                  <svg
+                    width="19"
+                    height="17"
+                    viewBox="0 0 19 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.9901 0.340088C12.2274 0.340088 11.4977 0.505089 10.8011 0.835089C10.1044 1.16509 9.5214 1.60875 9.05206 2.16609C8.5974 1.57942 8.0254 1.12842 7.33606 0.813087C6.64673 0.497755 5.90606 0.340088 5.11406 0.340088C4.2194 0.340088 3.3834 0.560087 2.60606 1.00009C1.85806 1.42542 1.26406 2.00476 0.824062 2.73809C0.384062 3.47142 0.164062 4.26342 0.164062 5.11409C0.164062 6.71275 0.596729 8.28942 1.46206 9.84409C2.1514 11.0908 3.11206 12.3008 4.34406 13.4741C5.22406 14.3248 6.20673 15.1094 7.29206 15.8281C7.96673 16.2974 8.4654 16.6054 8.78806 16.7521C8.84673 16.8108 8.93473 16.8401 9.05206 16.8401C9.1694 16.8401 9.29406 16.8108 9.42606 16.7521C9.77806 16.5761 10.2767 16.2681 10.9221 15.8281C11.9927 15.1094 12.9754 14.3248 13.8701 13.4741C15.0874 12.3008 16.0407 11.0908 16.7301 9.84409C17.5954 8.28942 18.0281 6.71275 18.0281 5.11409C18.0281 4.26342 17.8007 3.47142 17.3461 2.73809C16.8914 2.00476 16.2754 1.42175 15.4981 0.989088C14.7207 0.556421 13.8847 0.340088 12.9901 0.340088ZM9.05206 15.3661C8.1134 14.7941 7.24806 14.1854 6.45606 13.5401C5.06273 12.4108 3.96273 11.2448 3.15606 10.0421C2.07073 8.44342 1.52806 6.83009 1.52806 5.20209C1.52806 4.57142 1.69306 3.98842 2.02306 3.45309C2.35306 2.91775 2.79306 2.49242 3.34306 2.17709C3.89306 1.86175 4.4834 1.70409 5.11406 1.70409C5.8474 1.70409 6.51106 1.89475 7.10506 2.27609C7.69906 2.65742 8.1354 3.17075 8.41406 3.81609C8.47273 3.96275 8.5864 4.06542 8.75506 4.12409C8.92373 4.18275 9.09973 4.18275 9.28306 4.12409C9.4664 4.06542 9.60206 3.96275 9.69006 3.81609C9.96873 3.17075 10.4087 2.65742 11.0101 2.27609C11.6114 1.89475 12.2714 1.70409 12.9901 1.70409C13.6501 1.70409 14.2551 1.86175 14.8051 2.17709C15.3551 2.49242 15.7877 2.91775 16.1031 3.45309C16.4184 3.98842 16.5761 4.57142 16.5761 5.20209C16.5761 6.80075 16.0334 8.39942 14.9481 9.99809C14.1267 11.2008 13.0267 12.3741 11.6481 13.5181C10.8267 14.1928 9.9614 14.8088 9.05206 15.3661Z"
+                      fill="#030712"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              {/* Tags */}
+              <div className="flex items-center gap-2 mb-2">
+                {item.organic && (
+                  <span className="flex items-center gap-1 text-[10px] px-2 py-1 bg-[linear-gradient(90deg,_#D4FC79_0%,_#96E6A1_50%)] text-[#166534] rounded-full font-extrabold">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="15"
+                      viewBox="0 0 14 15"
+                      fill="none"
+                    >
+                      <path
+                        d="M2.29297 3.388H0.667969C0.667969 6.521 3.21597 9.069 6.36197 9.069V12.319C6.36197 12.787 6.72597 13.164 7.14197 13.164C7.55797 13.164 7.98697 12.787 7.98697 12.345V9.095C7.98697 5.949 5.43897 3.388 2.29297 3.388ZM12.043 1.776C9.89797 1.776 8.05197 2.959 7.07697 4.714C7.77897 5.468 8.29897 6.404 8.57197 7.444C11.432 7.145 13.668 4.727 13.668 1.776H12.043Z"
+                        fill="#166534"
+                      />
+                    </svg>{" "}
+                    ORGANIC
+                  </span>
+                )}
+                {item.cold && (
+                  <span className="flex items-center gap-1 text-[10px] px-2 py-1 bg-[linear-gradient(90deg,_#A5EFFF_0%,_#E7F8FD_50%)] text-[#0891B2] rounded-full font-extrabold">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                    >
+                      <path
+                        d="M12.5017 9.37256L11.1689 8.61464L12.3188 7.93518C12.5278 7.80451 12.6062 7.53011 12.4756 7.32104C12.358 7.11198 12.0836 7.03358 11.8614 7.16424L10.2804 8.09198L7.88916 6.71998L10.2804 5.33491L11.8614 6.27571C11.9398 6.31491 12.0182 6.34104 12.0966 6.34104C12.2404 6.34104 12.3972 6.26264 12.4756 6.11891C12.6062 5.90984 12.5278 5.63544 12.3188 5.50478L11.1689 4.82531L12.5017 4.06744C12.7108 3.93678 12.7761 3.66238 12.6585 3.45331C12.5409 3.24424 12.2665 3.16584 12.0444 3.28344L10.7246 4.05438L10.7116 2.72158C10.7116 2.47331 10.5025 2.27731 10.2673 2.27731C10.019 2.27731 9.82303 2.48638 9.82303 2.73464L9.8361 4.56398L7.44489 5.94904V3.19198L9.05209 2.29038C9.26116 2.15971 9.33956 1.88531 9.22196 1.67624C9.09129 1.46718 8.82996 1.38878 8.60782 1.50638L7.44489 2.15971V0.630912C7.44489 0.382646 7.24889 0.186646 7.00062 0.186646C6.75236 0.186646 6.55636 0.382646 6.55636 0.630912V2.15971L5.39342 1.50638C5.18436 1.38878 4.90996 1.46718 4.77929 1.67624C4.66169 1.88531 4.74009 2.15971 4.94916 2.29038L6.55636 3.19198V5.94904L4.16516 4.56398L4.17822 2.73464C4.19129 2.48638 3.98222 2.27731 3.74702 2.27731C3.73396 2.27731 3.73396 2.27731 3.73396 2.27731C3.49876 2.27731 3.28969 2.47331 3.28969 2.72158L3.27662 4.05438L1.95689 3.28344C1.73476 3.16584 1.46036 3.24424 1.34276 3.45331C1.22516 3.66238 1.29049 3.93678 1.51262 4.06744L2.83236 4.82531L1.68249 5.50478C1.47342 5.63544 1.39502 5.90984 1.52569 6.11891C1.60409 6.26264 1.76089 6.34104 1.90462 6.34104C1.98302 6.34104 2.06142 6.31491 2.13982 6.27571L3.72089 5.33491L6.11209 6.71998L3.72089 8.10504L2.13982 7.16424C1.91769 7.03358 1.65636 7.11198 1.52569 7.32104C1.39502 7.53011 1.47342 7.80451 1.68249 7.93518L2.83236 8.61464L1.51262 9.37256C1.29049 9.50322 1.22516 9.77762 1.34276 9.98669C1.42116 10.1304 1.57796 10.2088 1.73476 10.2088C1.80009 10.2088 1.87849 10.1958 1.95689 10.1435L3.27662 9.38562L3.28969 10.7184C3.28969 10.9667 3.49876 11.1627 3.73396 11.1627C3.73396 11.1627 3.73396 11.1627 3.74702 11.1627C3.98222 11.1627 4.19129 10.9536 4.17822 10.7054L4.16516 8.87598L6.55636 7.49091V10.248L4.94916 11.1496C4.74009 11.2803 4.66169 11.5547 4.77929 11.7638C4.87076 11.9075 5.01449 11.9859 5.17129 11.9859C5.24969 11.9859 5.32809 11.9728 5.39342 11.9336L6.55636 11.2803V12.8091C6.55636 13.0574 6.75236 13.2534 7.00062 13.2534C7.24889 13.2534 7.44489 13.0574 7.44489 12.8091V11.2803L8.60782 11.9336C8.67316 11.9728 8.75156 11.9859 8.82996 11.9859C8.98676 11.9859 9.13049 11.9075 9.22196 11.7638C9.33956 11.5547 9.26116 11.2803 9.05209 11.1496L7.44489 10.248V7.49091L9.8361 8.87598L9.82303 10.7054C9.82303 10.9536 10.019 11.1627 10.2542 11.1627C10.2673 11.1627 10.2673 11.1627 10.2673 11.1627C10.5156 11.1627 10.7116 10.9667 10.7116 10.7184L10.7246 9.38562L12.0444 10.1435C12.1228 10.1958 12.2012 10.2088 12.2665 10.2088C12.4233 10.2088 12.5801 10.1304 12.6585 9.98669C12.7761 9.77762 12.7108 9.50322 12.5017 9.37256Z"
+                        fill="#0891B2"
+                      />
+                    </svg>{" "}
+                    COLD SALE
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <Link
+                href="/"
+                className="text-[13px] cursor-pointer font-semibold text-[#030712] hover:text-[#634C9F] transition-all duration-300 mb-1 line-clamp-2 pr-1"
+              >
+                {item.title}
+              </Link>
+
+              <div className="flex items-center mt-2.5 mb-5">
+                {/* Stars */}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <svg
+                    key={`star-${item.id}-${i}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 11 12"
+                    fill="none"
+                  >
+                    <path
+                      d="M6.09821 1.11494C6.04133 0.997618 5.95956 0.904128 5.8529 0.834469C5.74625 0.764811 5.62893 0.72998 5.50095 0.72998C5.37296 0.72998 5.25387 0.764811 5.14366 0.834469C5.03345 0.904128 4.9499 0.997618 4.89302 1.11494L3.55985 3.96362L0.562893 4.41457C0.442019 4.42924 0.331811 4.47873 0.232268 4.56305C0.132724 4.64738 0.0651771 4.75187 0.029626 4.87652C-0.00592519 5.00117 -0.00948031 5.12766 0.0189606 5.25598C0.0474015 5.3843 0.107838 5.49245 0.200271 5.58044L2.36534 7.80219L1.8534 10.9258C1.83207 11.0578 1.84629 11.1825 1.89606 11.2998C1.94583 11.4171 2.02049 11.5161 2.12003 11.5968C2.21958 11.6774 2.33334 11.7214 2.46132 11.7288C2.58931 11.7361 2.71018 11.7104 2.82395 11.6518L5.50095 10.1779L8.17795 11.6518C8.29171 11.7104 8.41081 11.7361 8.53524 11.7288C8.65967 11.7214 8.77521 11.6793 8.88186 11.6023C8.98852 11.5253 9.06495 11.4263 9.11117 11.3053C9.15738 11.1843 9.16983 11.0578 9.1485 10.9258L8.62589 7.80219L10.8016 5.58044C10.8941 5.49245 10.9545 5.3843 10.9829 5.25598C11.0114 5.12766 11.0043 5.00117 10.9616 4.87652C10.9189 4.75187 10.8514 4.64738 10.759 4.56305C10.6665 4.47873 10.5563 4.42924 10.4283 4.41457L7.44204 3.96362L6.09821 1.11494Z"
+                      fill={i < item.rating ? "#FACC15" : "#D1D5DB"}
+                    />
+                  </svg>
+                ))}
+
+                {/* Rating Number */}
+                <span className="text-xs text-gray-600 ml-1">
+                  {item.rating}.0
+                </span>
+              </div>
+
+              {/* Price */}
+              <div className="flex items-baseline gap-1 mb-4">
+                <span
+                  className="text-[20px] font-bold text-[#DC2626]"
+                  id="price"
+                >
+                  ${item.currentPrice.toFixed(2)}
+                </span>
+                <span
+                  className="text-[15px] font-semibold line-through text-[#111827]"
+                  id="price"
+                >
+                  ${item.originalPrice.toFixed(2)}
+                </span>
+              </div>
+
+              {/* Button */}
+              <button className="relative w-full overflow-hidden text-[12px] font-semibold border border-[#634C9F] px-4 py-2 rounded-full cursor-pointer flex items-center justify-between group">
+                {/* Background animation */}
+                <span className="absolute inset-0 bg-[#634C9F] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0 rounded-full"></span>
+
+                {/* Foreground text with proper hover color */}
+                <span className="relative z-10 text-[#634C9F] group-hover:text-white transition-colors duration-300">
+                  Add to cart
+                </span>
+                <span className="relative z-10 text-lg leading-4 text-[#634C9F] group-hover:text-white transition-colors duration-300">
+                  ＋
+                </span>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default NewArrivals;

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Banner1 from "../assets/heroBanner1.jpg";
-import Banner2 from "../assets/heroBanner2.jpg";
+import Banner2 from "../assets/heroBanner2.png";
 
 const slides = [
   {
@@ -39,11 +39,11 @@ export default function BannerSlider() {
   }, []);
 
   return (
-    <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center px-4 md:px-6 lg:px-8 py-4 min-h-[500px]">
+    <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center py-4 lg:min-h-[500px] min-h-fit">
       {/* Sidebar space placeholder */}
       <div className="hidden lg:block w-80 flex-shrink-0 "></div>
 
-      <div className="relative ">
+      <div className="relative w-full">
         <div className="relative overflow-hidden rounded-xl bg-gray-100 ">
           <div
             className="flex transition-transform duration-700 ease-in-out "
@@ -67,7 +67,7 @@ export default function BannerSlider() {
                     {slide.tag}
                   </span>
 
-                  <h2 className="text-[24px] sm:text-[30px] md:text-[35px] font-bold text-[#39245F] leading-tight mt-2 whitespace-pre-line md:w-[80%] lg:w-[55%]">
+                  <h2 className="text-[24px] sm:text-[30px] md:text-[35px] font-bold text-[#39245F] leading-tight mt-2 whitespace-pre-line md:w-[60%] lg:w-[45%]">
                     {slide.title}
                   </h2>
 

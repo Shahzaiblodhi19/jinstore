@@ -1366,7 +1366,7 @@ export default function Header() {
         </div>
 
         {/* Center: Location + Search */}
-        <div className="hidden lg:flex items-center flex-1 max-w-4xl mx-8">
+        <div className="hidden lg:flex items-center flex-1 mx-8">
           <div className="flex items-center space-x-3 mr-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"

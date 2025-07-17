@@ -16,14 +16,12 @@ body {
   font-family: "Inter", sans-serif !important;
 }
 .container {
-  max-width: 1300px; /* Adjust as needed */
+  max-width: 1362px; /* Adjust as needed */
   width: 100%;
   margin: 0 auto;
-  padding-left: 16px; /* Small side padding */
-  padding-right: 16px; /* Small side padding */
 }
 /* sm: ≥640px (small tablets) */
-@media (min-width: 640px) {
+@media (max-width: 640px) and (min-width: 0px) {
   .container {
     padding-left: 1rem; /* 16px */
     padding-right: 1rem;
@@ -31,7 +29,7 @@ body {
 }
 
 /* md: ≥768px (tablets) */
-@media (min-width: 768px) {
+@media (max-width: 1024px) and (min-width: 640px) {
   .container {
     padding-left: 1.25rem; /* 20px */
     padding-right: 1.25rem;
@@ -39,7 +37,7 @@ body {
 }
 
 /* lg: ≥1024px (desktops) */
-@media (min-width: 1024px) {
+@media (max-width: 1279px) and (min-width: 1024px) {
   .container {
     padding-left: 1.5rem; /* 24px */
     padding-right: 1.5rem;
@@ -47,7 +45,7 @@ body {
 }
 
 /* xl: ≥1280px (large desktops) */
-@media (min-width: 1280px) {
+@media (max-width: 1361px) and (min-width: 1280px ) {
   .container {
     padding-left: 2rem !important; /* 32px */
     padding-right: 2rem !important;

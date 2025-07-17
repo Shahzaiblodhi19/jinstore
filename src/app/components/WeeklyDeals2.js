@@ -1,66 +1,68 @@
 import React from "react";
-import deal1 from "../assets/deal1.png";
-import deal2 from "../assets/deal2.jpg";
-import deal3 from "../assets/deal3.jpg";
+import deal1 from "../assets/2deal1.png";
+import deal2 from "../assets/2deal2.png";
+import deal3 from "../assets/2deal3.png";
+import deal4 from "../assets/2deal4.png";
 
-const deals = [
-  {
-    title: "Quality eggs at an affordable price",
-    subtitle: "Eat one every day",
-    tag: "Only This Week",
-    button: "Shop Now",
-    image: deal1,
-  },
-  {
-    title: "Snacks that nourishes our mind and body",
-    subtitle: "Shine the morning…",
-    tag: "Only This Week",
-    button: "Shop Now",
-    image: deal2,
-  },
-  {
-    title: "Unbeatable quality, unbeatable prices.",
-    subtitle: "Only this week. Don’t miss…",
-    tag: "Only This Week",
-    button: "Shop Now",
-    image: deal3,
-  },
-];
-
-const WeeklyDeals = () => {
+function WeeklyDeals2() {
+  const cards = [
+    {
+      title: "Provides you experienced quality products",
+      subtitle: "Feed your family the best",
+      image: deal1,
+    },
+    {
+      title: "Shopping with us for better quality and the best price",
+      subtitle: "Only this week. Don’t miss...",
+      image: deal2,
+    },
+    {
+      title: "Get the best quality products at the lowest prices",
+      subtitle: "A different kind of grocery store",
+      image: deal3,
+    },
+    {
+      title: "Where you get your all favorite brands under one roof",
+      subtitle: "Only this week. Don’t miss...",
+      image: deal4,
+    },
+  ];
   return (
-    <section className="pb-10">
-      <div className="container mx-auto">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {deals.map((deal, index) => (
-            <div
-              key={index}
-              className="relative w-full rounded-md overflow-hidden flex items-start justify-between p-4 sm:p-6 "
-              style={{
-                backgroundImage: `url(${deal.image.src || deal.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "right center",
-              }}
-            >
-
-              <div className="relative z-10 max-w-[50%] lg:max-w-[65%]">
-                <p className="text-[11px] sm:text-[12px] text-[#EA580C] font-medium">
-                  {deal.tag}
-                </p>
-                <h3 className="text-[16px] sm:text-[15px] xl:text-[20px] font-bold text-[#111827] mt-1 sm:mt-2 leading-snug">
-                  {deal.title}
-                </h3>
-                <p className="text-[11px] sm:text-[12px] text-[#6B7280] mt-1">
-                  {deal.subtitle}
-                </p>
-
-                <button className="group relative mt-3 sm:mt-4 cursor-pointer inline-flex items-center justify-center overflow-hidden bg-white border border-[#E5E7EB] text-[#212529] font-bold text-[11px] sm:text-[12px] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition-colors duration-300">
+    <main className="pb-10 container">
+      <div
+        className="grid justify-center gap-6"
+        style={{
+          gridTemplateColumns: "repeat(auto-fit, minmax(317.5px, 1fr))",
+        }}
+      >
+        {cards.map((card, idx) => (
+          <div
+            key={idx}
+            className="h-[397.23px] rounded-md p-5 flex flex-col justify-start items-start"
+            style={{
+              backgroundImage: `url(${card.image.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="space-y-2">
+              <p className="text-[11px] sm:text-[12px] text-[#EA580C] font-medium">
+                Only This Week
+              </p>
+              <h2 className="text-[16px] sm:text-[15px] xl:text-[19px] font-bold text-[#111827] mt-1 sm:mt-2 leading-snug">
+                {card.title}
+              </h2>
+              <p className="text-[11px] sm:text-[12px] text-[#6B7280] mt-1">
+                {card.subtitle}
+              </p>
+            </div>
+            <button className="group relative mt-3 sm:mt-4 cursor-pointer inline-flex items-center justify-center overflow-hidden bg-white border border-[#E5E7EB] text-[#212529] font-bold text-[11px] sm:text-[12px] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition-colors duration-300">
                   {/* Background Slide */}
                   <span className="absolute inset-0 bg-[#634C9F] z-0 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out rounded-full"></span>
 
                   {/* Text + Icon */}
                   <span className="relative z-10 flex items-center duration-300 group-hover:text-white gap-1 sm:gap-2 hover:gap-3 transition-all">
-                    {deal.button}
+                    Shop Now
                     <span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -89,13 +91,11 @@ const WeeklyDeals = () => {
                     </span>
                   </span>
                 </button>
-              </div>
-            </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </main>
   );
-};
+}
 
-export default WeeklyDeals;
+export default WeeklyDeals2;
