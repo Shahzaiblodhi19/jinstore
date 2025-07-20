@@ -83,7 +83,7 @@ const NewArrivals = () => {
     <section className="pb-10 ">
       <div className="container mx-auto ">
         {/* Heading */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 flex-wrap gap-4 md:gap-0">
           <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-[18px] font-bold text-[#030712]">
               New Arrivals
@@ -111,7 +111,7 @@ const NewArrivals = () => {
         </div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-[repeat(auto-fit,minmax(227px,1fr))] grid-cols-2">
+        <div className="grid sm:grid-cols-[repeat(auto-fit,minmax(227px,1fr))] grid-cols-1">
           {products.map((item) => (
             <div
               key={item.id}

@@ -9,6 +9,10 @@ import WeeklyDeals from "./components/WeeklyDeals";
 import NewArrivals from "./components/newArrivals";
 import WeeklyDeals2 from "./components/WeeklyDeals2";
 import CategoryGrid from "./components/categories";
+import FeaturedProducts from "./components/FeaturedProducts";
+import WeeklyDeals3 from "./components/WeeklyDeals3";
+import BestSellers from "./components/BestSellers";
+import Discount50Banner from "./components/discount50Banner";
 
 export default function TranslatePage() {
   return (
@@ -22,6 +26,10 @@ export default function TranslatePage() {
       <CategoryGrid />
       <NewArrivals />
       <WeeklyDeals2 />
+      <FeaturedProducts />
+      <WeeklyDeals3 />
+      <BestSellers />
+      <Discount50Banner  />
     </div>
   );
 }

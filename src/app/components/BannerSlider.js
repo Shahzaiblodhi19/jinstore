@@ -52,10 +52,11 @@ export default function BannerSlider() {
             {slides.map((slide, idx) => (
               <div
                 key={slide.id}
-                className="w-full flex-shrink-0 bg-cover bg-center pt-12 pb-16 lg:pt-16 lg:pb-32 flex flex-col md:flex-row items-center"
+                className="w-full flex-shrink-0 bg-cover  bg-center  flex flex-col md:flex-row items-center"
                 style={{ backgroundImage: `url(${slide.image.src})` }}
               >
                 {/* Overlay */}
+                <div className="bg-[#ffffff6d] md:bg-transparent  pt-6 sm:pt-12 sm:pb-16 pb-12 lg:pt-16 lg:pb-32 ">
                 <div className="w-full px-4 sm:px-8 md:px-12">
                   <span
                     className="inline-block text-[#166534] font-semibold text-[10px] px-3 py-1 rounded-md"
@@ -112,6 +113,7 @@ export default function BannerSlider() {
                       </p>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             ))}
