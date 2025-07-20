@@ -83,26 +83,31 @@ const products = [
   },
 ];
 
-// Timer Hook
-const useCountdown = (endTime) => {
-  const [timeLeft, setTimeLeft] = useState(endTime - new Date().getTime());
+export default function FeaturedProducts() {
+   const [countdowns, setCountdowns] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(endTime - new Date().getTime());
+      const now = Date.now();
+      const newCountdowns = products.reduce((acc, product) => {
+        const timeLeft = Math.max(product.endTime - now, 0);
+        acc[product.id] = timeLeft;
+        return acc;
+      }, {});
+      setCountdowns(newCountdowns);
     }, 1000);
+
     return () => clearInterval(interval);
-  }, [endTime]);
+  }, []);
 
-  const seconds = Math.floor((timeLeft / 1000) % 60);
-  const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
-  const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-
-  return [days, hours, minutes, seconds];
-};
-
-export default function FeaturedProducts() {
+  const formatTimeLeft = (ms) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return [days, hours, minutes, seconds];
+  };
   return (
     <div className="container pb-10">
       {/* Heading */}
@@ -133,7 +138,8 @@ export default function FeaturedProducts() {
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
         {products.map((product) => {
-          const [d, h, m, s] = useCountdown(product.endTime);
+          const timeLeft = countdowns[product.id] || 0;
+          const [d, h, m, s] = formatTimeLeft(timeLeft);
 
           return (
             <div
@@ -315,7 +321,7 @@ export default function FeaturedProducts() {
                   {[d, h, m, s].map((unit, idx) => (
                     <div key={idx} className="flex items-center gap-1">
                       <span className="bg-[#F3F4F6] px-2 py-1 rounded font-semibold border border-[#E5E7EB]">
-                        {unit.toString().padStart(2, "0")}
+                        {String(unit).padStart(2, "0")}
                       </span>
                       {idx === 2 && (
                         <span className="text-[#4B5563] font-semibold text-[14px]">

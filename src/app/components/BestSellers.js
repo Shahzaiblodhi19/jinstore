@@ -97,26 +97,31 @@ const products = [
   },
 ];
 
-// Timer Hook
-const useCountdown = (endTime) => {
-  const [timeLeft, setTimeLeft] = useState(endTime - new Date().getTime());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(endTime - new Date().getTime());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [endTime]);
-
-  const seconds = Math.floor((timeLeft / 1000) % 60);
-  const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
-  const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-
-  return [days, hours, minutes, seconds];
-};
-
 export default function BestSellers() {
+     const [countdowns, setCountdowns] = useState({});
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        const now = Date.now();
+        const newCountdowns = products.reduce((acc, product) => {
+          const timeLeft = Math.max(product.endTime - now, 0);
+          acc[product.id] = timeLeft;
+          return acc;
+        }, {});
+        setCountdowns(newCountdowns);
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    }, []);
+  
+    const formatTimeLeft = (ms) => {
+      const totalSeconds = Math.floor(ms / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return [days, hours, minutes, seconds];
+    };
   return (
     <div className="container pb-10">
       {/* Heading */}
@@ -148,7 +153,8 @@ export default function BestSellers() {
       <div className="grid gap-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
         <div className="flex flex-col">
           {products.slice(0, 3).map((product) => {
-            const [d, h, m, s] = useCountdown(product.endTime);
+           const timeLeft = countdowns[product.id] || 0;
+        const [d, h, m, s] = formatTimeLeft(timeLeft);
 
             return (
               <div
@@ -458,7 +464,7 @@ export default function BestSellers() {
                     viewBox="0 0 15 15"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_6314_2339)">
+                    <g clipPath="url(#clip0_6314_2339)">
                       <path
                         d="M7.48224 1.912C7.06224 1.912 6.67257 2.017 6.31324 2.227C5.9539 2.437 5.66924 2.72167 5.45924 3.081C5.24924 3.44033 5.14424 3.83 5.14424 4.25H3.95424C3.95424 3.61533 4.11057 3.02967 4.42324 2.493C4.7359 1.95633 5.16057 1.53167 5.69724 1.219C6.2339 0.906333 6.81957 0.75 7.45424 0.75C8.0889 0.75 8.67457 0.906333 9.21124 1.219C9.7479 1.53167 10.1726 1.95633 10.4852 2.493C10.7979 3.02967 10.9542 3.61533 10.9542 4.25H13.2502C13.5862 4.25 13.8709 4.369 14.1042 4.607C14.3376 4.845 14.4542 5.13667 14.4542 5.482C14.4542 5.55667 14.4496 5.62667 14.4402 5.692L13.1382 13.224C13.0636 13.6627 12.8582 14.0267 12.5222 14.316C12.1862 14.6053 11.7989 14.75 11.3602 14.75H3.54824C3.10957 14.75 2.72224 14.6053 2.38624 14.316C2.05024 14.0267 1.8449 13.6627 1.77024 13.224L0.468238 5.706C0.412238 5.37 0.479904 5.062 0.671238 4.782C0.862571 4.502 1.12157 4.32933 1.44824 4.264C1.51357 4.25467 1.58357 4.25 1.65824 4.25H9.82024C9.82024 3.83 9.71524 3.44033 9.50524 3.081C9.29524 2.72167 9.01057 2.437 8.65124 2.227C8.2919 2.017 7.90224 1.912 7.48224 1.912ZM13.2502 5.412H1.65824C1.6489 5.412 1.6349 5.43067 1.61624 5.468V5.496L2.91824 13.028C2.94624 13.1773 3.01157 13.3033 3.11424 13.406C3.2169 13.5087 3.33824 13.5647 3.47824 13.574L3.54824 13.588H11.3602C11.5002 13.588 11.6286 13.5437 11.7452 13.455C11.8619 13.3663 11.9389 13.2473 11.9762 13.098L13.2922 5.482C13.2922 5.44467 13.2829 5.426 13.2642 5.426L13.2502 5.412Z"
                         fill="white"
@@ -487,7 +493,8 @@ export default function BestSellers() {
 
         <div className="flex flex-col">
           {products.slice(4, 7).map((product) => {
-            const [d, h, m, s] = useCountdown(product.endTime);
+           const timeLeft = countdowns[product.id] || 0;
+        const [d, h, m, s] = formatTimeLeft(timeLeft);
 
             return (
               <div
