@@ -133,10 +133,10 @@ export default function BannerSlider() {
 
                       <div className="anim">
                         <div className="flex items-center mt-1 sm:mt-0">
-                          <p className="text-[#DC2626] font-bold text-lg sm:text-[20px] md:text-[24px] flex items-end">
+                          <p className="text-[#DC2626] font-bold text-lg sm:text-[20px] md:text-[24px] flex items-end" id="price">
                             {slide.price}
                           </p>
-                          <span className="line-through text-[#111827] text-sm md:text-[16px] font-medium ml-2">
+                          <span className="line-through text-[#111827] text-sm md:text-[16px] font-medium ml-2" id="price">
                             {slide.original}
                           </span>
                         </div>
