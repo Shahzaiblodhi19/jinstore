@@ -14,7 +14,7 @@ export default function Footer() {
             </h2>
             <p className="text-[#6B7280] text-[12px]">
               Register now to get latest updates on promotions & <br /> coupons.
-              Don't worry, we not spam!
+              Don&apos;t worry, we not spam!
             </p>
           </div>
           <div className="flex flex-col">
