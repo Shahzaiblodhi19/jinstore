@@ -128,7 +128,7 @@ useEffect(() => {
 
                         <div className="ml-4 flex items-center gap-1 justify-center lg:justify-start">
                             {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
-                                <div key={unit} className="flex items-end ml-2 gap-1">
+                                <div key={unit} className="flex items-center ml-2 gap-1">
                                     <div
                                         ref={digitRefs[unit]}
                                         className={`text-white font-inter text-sm sm:text-base lg:text-[1.125em] font-semibold leading-normal tracking-[-0.32px] transition-all duration-300 ${
