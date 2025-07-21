@@ -1,25 +1,193 @@
+"use client";
 import Image from "next/image";
 import playStore from "../assets/playstore.png";
 import appStore from "../assets/qppstore.png";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Footer() {
+ const newsletterRef = useRef(null);
+  const footerRef = useRef(null);
+  const bottomRef = useRef(null);
+  const helpRef = useRef(null);
+  const moneyRef = useRef(null);
+  const helpYouRef = useRef(null);
+  const knowUsRef = useRef(null);
+  const sectionRef = useRef(null); // App & Social
+
+ useEffect(() => {
+  const ctx = gsap.context(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: newsletterRef.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Newsletter (faster)
+    tl.from(".newsletter-heading", {
+      opacity: 0,
+      y: 30,
+      duration: 0.4,
+      ease: "power2.out",
+    })
+      .from(".newsletter-text", {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<0.1")
+      .from(".newsletter-form", {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<0.1")
+      .from(".newsletter-note", {
+        opacity: 0,
+        y: 10,
+        duration: 0.2,
+        ease: "power1.out",
+      }, "<0.1");
+
+    // Help
+    tl.from(helpRef.current, {
+      opacity: 0,
+      y: 25,
+      duration: 0.5,
+      ease: "power1.out",
+    })
+      .from(".footer-help-item", {
+        opacity: 0,
+        y: 15,
+        stagger: 0.08,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<");
+
+    // Money
+    tl.from(moneyRef.current, {
+      opacity: 0,
+      y: 25,
+      duration: 0.4,
+      ease: "power1.out",
+    }, "<0.1");
+
+    // Help You
+    tl.from(helpYouRef.current, {
+      opacity: 0,
+      y: 30,
+      duration: 0.5,
+      ease: "power2.out",
+    })
+      .from(".footer-help-item", {
+        opacity: 0,
+        y: 15,
+        stagger: 0.08,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<");
+
+    // Know Us
+    tl.from(knowUsRef.current, {
+      opacity: 0,
+      y: 30,
+      duration: 0.5,
+      ease: "power2.out",
+    })
+      .from(".footer-know-item", {
+        opacity: 0,
+        y: 15,
+        stagger: 0.08,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<");
+
+    // App & Social
+    tl.from(sectionRef.current.querySelector(".app-heading"), {
+      y: 15,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power1.out",
+    })
+      .from(sectionRef.current.querySelectorAll(".app-link"), {
+        x: -20,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 0.4,
+        ease: "power1.out",
+      }, "<0.1")
+      .from(sectionRef.current.querySelector(".follow-text"), {
+        y: 10,
+        opacity: 0,
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<0.1")
+      .from(sectionRef.current.querySelectorAll(".social-icon"), {
+        scale: 0.95,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.3,
+        ease: "back.out(1.5)",
+      }, "<");
+
+    // Footer container
+    tl.from(footerRef.current, {
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      ease: "power2.out",
+    });
+
+    // Bottom
+    tl.from(bottomRef.current, {
+      opacity: 0,
+      y: 25,
+      duration: 0.6,
+      ease: "power2.out",
+    })
+      .from(".footer-icon", {
+        y: 15,
+        opacity: 0,
+        duration: 0.3,
+        stagger: 0.1,
+        ease: "power1.out",
+      }, "<")
+      .from(".footer-link", {
+        opacity: 0,
+        y: 15,
+        duration: 0.3,
+        stagger: 0.08,
+        ease: "power1.out",
+      }, "<");
+
+  }, newsletterRef);
+
+  return () => ctx.revert();
+}, []);
+
+
   return (
     <footer className="bg-[#F3F4F6] text-gray-700 text-sm py-10">
-      <div className="container mx-auto ">
+      <div className="container mx-auto " ref={newsletterRef}>
         {/* Newsletter Section */}
         <div className="flex flex-col lg:flex-row justify-between items-center border-b border-[#D1D5DB] pb-10 mb-10 gap-4">
           <div className="text-center lg:text-left">
-            <h2 className="text-[20px] text-[#111827] font-semibold mb-1">
+            <h2 className="text-[20px] text-[#111827] font-semibold mb-1 newsletter-heading">
               Join our newsletter for <span id="price">$15</span> offs
             </h2>
-            <p className="text-[#6B7280] text-[12px]">
+            <p className="text-[#6B7280] text-[12px] newsletter-text">
               Register now to get latest updates on promotions & <br /> coupons.
               Don&apos;t worry, we not spam!
             </p>
           </div>
           <div className="flex flex-col">
             <div
-              className="flex items-center justify-between w-full sm:w-auto bg-white border border-[#D1D5DB] rounded-lg"
+              className="flex items-center justify-between w-full sm:w-auto bg-white border border-[#D1D5DB] rounded-lg newsletter-form"
               style={{ boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)" }}
             >
               <svg
@@ -44,7 +212,7 @@ export default function Footer() {
                 SEND
               </button>
             </div>
-            <p className="text-[#6B7280] text-[10px] mt-2   ">
+            <p className="text-[#6B7280] text-[10px] mt-2 newsletter-note">
               By subscribing you agree to our{" "}
               <span className="text-[#634C9F] font-semibold cursor-pointer">
                 Terms & Conditions
@@ -60,7 +228,7 @@ export default function Footer() {
         {/* Footer Links Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Help Section */}
-          <div>
+          <div ref={helpRef}>
             <h3 className="font-semibold text-[#111827] text-[14px] mb-5">
               Do You Need Help ?
             </h3>
@@ -107,7 +275,7 @@ export default function Footer() {
           </div>
 
           {/* Make Money Section */}
-          <div>
+          <div ref={moneyRef}>
             <h3 className="font-semibold text-[#111827] text-[14px] mb-5">
               Make Money with Us
             </h3>
@@ -140,78 +308,66 @@ export default function Footer() {
           </div>
 
           {/* Help You Section */}
-          <div>
+          <div ref={helpYouRef} >
             <h3 className="font-semibold text-[#111827] text-[14px] mb-5">
               Let Us Help You
             </h3>
-            <ul className="space-y-2">
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Accessibility Statement
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Your Orders
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Returns & Replacements
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Shipping Rates & Policies
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Refund and Returns Policy
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Privacy Policy
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Terms and Conditions
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Cookie Settings
-              </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
-                Help Center
-              </li>
-            </ul>
+           <ul className="space-y-2">
+    {[
+      "Accessibility Statement",
+      "Your Orders",
+      "Returns & Replacements",
+      "Shipping Rates & Policies",
+      "Refund and Returns Policy",
+      "Privacy Policy",
+      "Terms and Conditions",
+      "Cookie Settings",
+      "Help Center",
+    ].map((text, i) => (
+      <li key={i} className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+        {text}
+      </li>
+    ))}
+  </ul>
           </div>
 
           {/* Know Us Section */}
-          <div>
+          <div ref={knowUsRef} >
             <h3 className="font-semibold text-[#111827] text-[14px] mb-5">
               Get to Know Us
             </h3>
             <ul className="space-y-2">
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Careers for Grogin
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 About Grogin
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Investor Relations
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Grogin Devices
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Customer reviews
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Social Responsibility
               </li>
-              <li className="text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
+              <li className=" text-[#4B5563] text-[13px] cursor-pointer hover:text-[#634C9F] hover:font-medium transition-all duration-300">
                 Store Locations
               </li>
             </ul>
           </div>
 
           {/* App & Social */}
-          <div>
-            <h3 className="font-semibold text-[#111827] text-[14px] mb-5">
+          <div ref={sectionRef}>
+            <h3 className="app-heading font-semibold text-[#111827] text-[14px] mb-5">
               Download our app
             </h3>
             <div className="space-y-2 mb-3">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 app-link">
                 <Image
                   src={playStore}
                   alt="Google Play"
@@ -222,16 +378,16 @@ export default function Footer() {
                   Download App Get -20% Discount
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 app-link">
                 <Image src={appStore} alt="App Store" width={160} height={40} />
                 <p className="text-[10px] text-[#6B7280]">
                   Download App Get -25% Discount
                 </p>
               </div>
             </div>
-            <p className="mb-2 mt-10">Follow us on social media:</p>
-            <div className="flex space-x-2 text-lg mt-4">
-              <div className="cursor-pointer bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#1877F2] hover:text-white transition-colors duration-300">
+            <p className="mb-2 mt-10 follow-text">Follow us on social media:</p>
+            <div className="flex  mt-4 flex-wrap space gap-2 ">
+              <div className="cursor-pointer social-icon bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#1877F2] hover:text-white transition-colors duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -257,7 +413,7 @@ export default function Footer() {
                   </defs>
                 </svg>
               </div>
-              <div className="cursor-pointer bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#000000] hover:text-white transition-colors duration-300">
+              <div className="cursor-pointer social-icon bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#000000] hover:text-white transition-colors duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -268,7 +424,7 @@ export default function Footer() {
                   <path d="M20.66 3h-3.07l-5.17 6.82L7.13 3H3.06l6.91 9.1L3 21h3.07l5.61-7.4L16.87 21h4.07l-7.1-9.33L20.66 3z" />
                 </svg>
               </div>
-              <div className="cursor-pointer bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#FD1D1D] hover:text-white transition-colors duration-300">
+              <div className="cursor-pointer social-icon bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#FD1D1D] hover:text-white transition-colors duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -282,7 +438,7 @@ export default function Footer() {
                   />
                 </svg>
               </div>
-              <div className="cursor-pointer bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#0077B5] hover:text-white transition-colors duration-300">
+              <div className="cursor-pointer social-icon bg-white p-4 rounded-[6px] hover:bg-[#634C9F] text-[#0077B5] hover:text-white transition-colors duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -313,20 +469,24 @@ export default function Footer() {
         </div>
 
         {/* Bottom Footer */}
-        <div className="mt-10 border-t border-[#D1D5DB] pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <p className="text-xs font-medium">
-            Copyright 2025 © Jinstore Ecommerce Platform. All rights reserved.
-          </p>
-          <p className="text-xs">
-            <span className="text-gray-600">Powered by</span>{" "}
-            <span className="text-[#634C9F] font-semibold">Shahzaib Lodhi</span>
-          </p>
-        </div>
+            <div
+      ref={footerRef}
+      className="mt-10 border-t border-[#D1D5DB] pt-6 flex flex-col sm:flex-row justify-between items-center gap-2"
+    >
+      <p className="text-xs font-medium">
+        Copyright 2025 © Jinstore Ecommerce Platform. All rights reserved.
+      </p>
+      <p className="text-xs">
+        <span className="text-gray-600">Powered by</span>{" "}
+        <span className="text-[#634C9F] font-semibold">Shahzaib Lodhi</span>
+      </p>
+    </div>
 
         {/* Links Bottom */}
-        <div className="flex items-center justify-center md:justify-between gap-4 mt-6 flex-wrap">
+        <div
+      ref={bottomRef} className="flex items-center justify-center md:justify-between gap-4 mt-6 flex-wrap">
           <div className="flex items-center gap-3 mt-2 sm:mt-0">
-            <svg
+            <svg className="footer-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="36"
               height="14"
@@ -364,7 +524,7 @@ export default function Footer() {
                 </linearGradient>
               </defs>
             </svg>
-            <svg
+            <svg className="footer-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="16"
@@ -411,7 +571,7 @@ export default function Footer() {
                 </clipPath>
               </defs>
             </svg>
-            <svg
+            <svg className="footer-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="53"
               height="16"
@@ -456,7 +616,7 @@ export default function Footer() {
                 />
               </g>
             </svg>
-            <svg
+            <svg className="footer-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="41"
               height="16"
@@ -484,7 +644,7 @@ export default function Footer() {
                 />
               </g>
             </svg>
-            <svg
+            <svg className="footer-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="64"
               height="16"
@@ -562,13 +722,13 @@ export default function Footer() {
             </svg>
           </div>
           <div className="text-center text-[11px] text-[#634C9F] font-medium space-x-3">
-            <a href="#" className="hover:underline">
+            <a href="#" className="footer-link hover:underline">
               Terms and Conditions
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#" className="footer-link hover:underline">
               Privacy Policy
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#" className="footer-link hover:underline">
               Order Tracking
             </a>
           </div>

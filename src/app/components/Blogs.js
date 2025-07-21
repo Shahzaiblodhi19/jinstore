@@ -1,9 +1,16 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import blog1 from "../assets/blog1.png";
 import blog2 from "../assets/blog2.png";
 import blog3 from "../assets/blog3.png";
 import blog4 from "../assets/blog4.png";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const articles = [
   {
@@ -42,8 +49,28 @@ const articles = [
 ];
 
 export default function Blogs() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".blog-card", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.6,
+        stagger: 0.2,
+        ease: "power2.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="container pb-10 mx-auto">
+    <section className="container pb-10 mx-auto" ref={sectionRef}>
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4 md:gap-0">
         <div className="flex items-center gap-3 flex-wrap">
           <h2 className="text-[18px] font-bold text-[#030712]">Our News</h2>
@@ -52,7 +79,7 @@ export default function Blogs() {
           </p>
         </div>
         <button className="text-[12px] cursor-pointer font-semibold text-[#000] border border-[#E5E7EB] rounded-full px-4 py-2 flex items-center gap-2 hover:gap-3 hover:text-[#fff] hover:bg-[#634C9F] transition-all duration-300">
-          View All{" "}
+          View All
           <svg
             width="14"
             height="6"
@@ -69,7 +96,7 @@ export default function Blogs() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {articles.map((article, idx) => (
-          <div key={idx} className="overflow-hidden bg-white flex flex-col">
+          <div key={idx} className="overflow-hidden bg-white flex flex-col blog-card">
             <div className="relative w-full h-[219px] rounded-[24px]">
               <Image
                 src={article.image.src}
@@ -99,7 +126,6 @@ export default function Blogs() {
                   </span>
                 </div>
                 <span className="text-[12px] text-[#374151] font-normal">
-                  {" "}
                   - {article.date}
                 </span>
               </div>

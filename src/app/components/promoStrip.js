@@ -23,26 +23,36 @@ export default function PromoStrip() {
         seconds: useRef(null),
     };
 
-    // Animate full strip on mount
-    useEffect(() => {
-        gsap.set(stripRef.current, { opacity: 0, y: -50 });
-        gsap.timeline()
-            .to(stripRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: 'power4.out',
-            })
-            .from([headingRef.current, labelRef.current], {
-                opacity: 0,
-                y: 20,
-                duration: 0.6,
-                stagger: 0.2,
-                ease: 'power2.out',
-            }, "-=0.6");
-    }, []);
+    // Animate full strip
+useEffect(() => {
+  gsap.set(stripRef.current, { opacity: 0, y: -50 });
 
-    // Animate only the seconds digit — amazing flip effect
+  requestAnimationFrame(() => {
+    const tl1 = gsap.timeline();
+    tl1.to(stripRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power4.out',
+    });
+
+    const tl2 = gsap.timeline({ delay: 0.4 }); // slight delay after parent comes in
+    tl2.fromTo(
+      [headingRef.current, labelRef.current],
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.2,
+        ease: 'power2.out',
+      }
+    );
+  });
+}, []);
+
+
+    // Flip animate only seconds
     useEffect(() => {
         const prev = prevTimeRef.current;
 
@@ -50,17 +60,12 @@ export default function PromoStrip() {
         if (timeLeft.seconds !== prev.seconds && secEl) {
             gsap.fromTo(
                 secEl,
+                { y: '-100%', opacity: 0 },
                 {
-                    rotationX: -90,
-                    transformPerspective: 600,
-                    opacity: 0,
-                },
-                {
-                    rotationX: 0,
-                    transformPerspective: 600,
+                    y: '0%',
                     opacity: 1,
-                    duration: 0.6,
-                    ease: "back.out(2)",
+                    duration: 0.3,
+                    ease: 'power2.out',
                 }
             );
         }
@@ -103,7 +108,7 @@ export default function PromoStrip() {
     const formatTime = (time) => time.toString().padStart(2, '0');
 
     return (
-        <div ref={stripRef} className="strp bg-[#634C9F] text-white py-3 sm:py-2 px-2">
+        <div ref={stripRef} className="strp bg-[#634C9F] text-white py-3 sm:py-2 px-2 overflow-hidden">
             <div className="container">
                 <div className="flex flex-col lg:flex-row items-center justify-center gap-[16px] lg:gap-[120px]">
                     <p
@@ -123,14 +128,13 @@ export default function PromoStrip() {
 
                         <div className="ml-4 flex items-center gap-1 justify-center lg:justify-start">
                             {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
-                                <div key={unit} className="flex items-center ml-2 gap-1">
+                                <div key={unit} className="flex items-end ml-2 gap-1">
                                     <div
                                         ref={digitRefs[unit]}
-                                        className="text-white font-inter text-sm sm:text-base lg:text-[1.125em] font-semibold leading-normal tracking-[-0.32px]"
-                                        style={{
-                                            display: "inline-block",
-                                            transformStyle: "preserve-3d",
-                                        }}
+                                        className={`text-white font-inter text-sm sm:text-base lg:text-[1.125em] font-semibold leading-normal tracking-[-0.32px] transition-all duration-300 ${
+                                            unit === 'seconds' ? 'overflow-hidden h-[1.5em]' : ''
+                                        }`}
+                                        style={unit === 'seconds' ? { display: 'inline-block' } : {}}
                                     >
                                         {formatTime(timeLeft[unit])}
                                     </div>

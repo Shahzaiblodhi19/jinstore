@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef} from "react";
 import Link from "next/link";
 import product1 from "../assets/fp1.png";
 import product2 from "../assets/fp2.png";
@@ -8,6 +8,9 @@ import product4 from "../assets/fp4.jpg";
 import product5 from "../assets/fp5.png";
 import product6 from "../assets/fp6.png";
 import offerProduct from "../assets/offerProduct.jpg";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 // Mock product data
 const products = [
@@ -122,11 +125,66 @@ export default function BestSellers() {
       const seconds = totalSeconds % 60;
       return [days, hours, minutes, seconds];
     };
+     const containerRef = useRef(null);
+  
+    useEffect(() => {
+      const ctx = gsap.context(() => {
+        gsap.from(".product-card", {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+          },
+        });
+      }, containerRef);
+  
+      return () => ctx.revert(); // Cleanup
+    }, []);
+   const sectionRef = useRef(null);
+    const headingRef = useRef(null);
+    const buttonRef = useRef(null);
+  
+    useEffect(() => {
+      const ctx = gsap.context(() => {
+        // Animate the heading text
+        gsap.from(headingRef.current, {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%", // when section enters viewport
+            toggleActions: "play none none none",
+          },
+        });
+  
+        // Animate the button
+        gsap.from(buttonRef.current, {
+          x: 30,
+          opacity: 0,
+          duration: 0.6,
+          delay: 0.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+      }, sectionRef);
+  
+      return () => ctx.revert();
+    }, []);
   return (
-    <div className="container pb-10">
+    <div className="container pb-10" ref={containerRef}>
       {/* Heading */}
-      <div className="flex justify-between items-center mb-6 flex-wrap gap-4 md:gap-0">
-        <div className="flex items-center gap-3 flex-wrap">
+      <div ref={sectionRef}  className="flex justify-between items-center mb-6 flex-wrap gap-4 md:gap-0">
+        <div  ref={headingRef} className="flex items-center gap-3 flex-wrap">
           <h2 className="text-[18px] font-bold text-[#030712]">
             Best Sellers
           </h2>
@@ -134,7 +192,7 @@ export default function BestSellers() {
             Some of the new products arriving this weeks
           </p>
         </div>
-        <button className="text-[12px] cursor-pointer font-semibold text-[#000] border border-[#E5E7EB] rounded-full px-4 py-2 flex items-center gap-2 hover:gap-3 hover:text-[#fff] hover:bg-[#634C9F] transition-all duration-300">
+        <button ref={buttonRef}  className="text-[12px] cursor-pointer font-semibold text-[#000] border border-[#E5E7EB] rounded-full px-4 py-2 flex items-center gap-2 hover:gap-3 hover:text-[#fff] hover:bg-[#634C9F] transition-all duration-300">
           View All{" "}
           <svg
             width="14"
@@ -159,8 +217,8 @@ export default function BestSellers() {
             return (
               <div
                 key={product.id}
-                className=" border border-[#e5e7eb94] px-5 py-6 bg-white hover:border-[#634C9F] transition-border duration-300"
-              >
+             className="product-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col justify-between">
+            
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="relative w-full sm:w-fit">
                     <Link
@@ -356,7 +414,7 @@ export default function BestSellers() {
         </div>
 
         {/* Middle Column: 1 Big Product */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center product-card">
           <div className="border-4 border-[#DC2626] rounded-[8px] px-4 sm:px-8 pt-8 lg:pb-2 pb-8 bg-white w-full h-full">
             <div className="flex flex-col items-start gap-4 ">
               <div className="relative w-full">
@@ -499,8 +557,8 @@ export default function BestSellers() {
             return (
               <div
                 key={product.id}
-                className=" border border-[#e5e7eb94] px-5 py-6 bg-white hover:border-[#634C9F] transition-border duration-300"
-              >
+                             className="product-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col justify-between">
+
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="relative w-full sm:w-fit">
                     <Link

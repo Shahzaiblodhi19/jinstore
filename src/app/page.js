@@ -1,8 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import PromoStrip from "./components/promoStrip";
-import Header from "./components/header";
 import BannerSlider from "./components/BannerSlider";
 import FeatureHighlights from "./components/FeatureHighlights";
 import WeeklyDeals from "./components/WeeklyDeals";
@@ -15,16 +12,15 @@ import BestSellers from "./components/BestSellers";
 import Discount50Banner from "./components/discount50Banner";
 import Blogs from "./components/Blogs";
 import PopularCompanies from "./components/popularCompanies";
-import Footer from "./components/Footer";
 
-export default function TranslatePage() {
+export default function HomePage() {
   return (
     <div>
-      <PromoStrip />
-      <Header />
       <BannerSlider />
       <FeatureHighlights />
-      <div className="container py-10"><hr className="border-[#E5E7EB]" /></div>
+      <div className="container py-10">
+        <hr className="border-[#E5E7EB]" />
+      </div>
       <WeeklyDeals />
       <CategoryGrid />
       <NewArrivals />
@@ -32,10 +28,9 @@ export default function TranslatePage() {
       <FeaturedProducts />
       <WeeklyDeals3 />
       <BestSellers />
-      <Discount50Banner  />
+      <Discount50Banner />
       <Blogs />
       <PopularCompanies />
-      <Footer />
     </div>
   );
 }

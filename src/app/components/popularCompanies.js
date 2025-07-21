@@ -1,3 +1,8 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 const reviews = [
   {
     name: "Machic",
@@ -53,18 +58,53 @@ const StarRating = ({ count }) => {
 };
 
 export default function PopularCompanies() {
+  const sectionRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  useEffect(() => {
+    gsap.fromTo(
+      sectionRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      cardsRef.current,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
+
   return (
-    <section className="container pb-10 mx-auto">
-      {/* Heading */}
+    <section ref={sectionRef} className="container pb-10 mx-auto">
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4 md:gap-0">
         <div className="flex items-center gap-3 flex-wrap">
           <h2 className="text-[18px] font-bold text-[#030712]">Popular Companies</h2>
           <p className="text-[13px] text-[#9CA3AF]">
-           Some of the new products arriving this weeks
+            Some of the new products arriving this weeks
           </p>
         </div>
         <button className="text-[12px] cursor-pointer font-semibold text-[#000] border border-[#E5E7EB] rounded-full px-4 py-2 flex items-center gap-2 hover:gap-3 hover:text-[#fff] hover:bg-[#634C9F] transition-all duration-300">
-          View All{" "}
+          View All
           <svg
             width="14"
             height="6"
@@ -73,16 +113,17 @@ export default function PopularCompanies() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13.3956 2.81796C13.3956 2.78996 13.3839 2.76429 13.3606 2.74096C13.3372 2.71762 13.3116 2.70596 13.2836 2.70596L10.9456 0.367957C10.8522 0.283957 10.7449 0.241957 10.6236 0.241957C10.5022 0.241957 10.3949 0.283957 10.3016 0.367957C10.2082 0.451957 10.1639 0.55929 10.1686 0.689957C10.1732 0.820623 10.2176 0.927957 10.3016 1.01196L11.8836 2.59396H1.31356C1.19223 2.59396 1.0849 2.63596 0.991563 2.71996C0.898229 2.80396 0.851562 2.91829 0.851562 3.06296C0.851562 3.20762 0.893563 3.31962 0.977563 3.39896C1.06156 3.47829 1.17356 3.51796 1.31356 3.51796H11.9396L10.3576 5.09996C10.2736 5.18396 10.2316 5.28896 10.2316 5.41496C10.2316 5.54096 10.2736 5.65062 10.3576 5.74396C10.3856 5.77196 10.4276 5.79762 10.4836 5.82096C10.5396 5.84429 10.5956 5.85596 10.6516 5.85596C10.7076 5.85596 10.7636 5.84429 10.8196 5.82096C10.8756 5.79762 10.9176 5.77196 10.9456 5.74396L13.2836 3.40596C13.3022 3.38729 13.3209 3.36396 13.3396 3.33596C13.3582 3.30796 13.3769 3.29396 13.3956 3.29396C13.4236 3.17262 13.4376 3.07929 13.4376 3.01396C13.4376 2.94862 13.4236 2.88329 13.3956 2.81796Z"
+              d="M13.3956 2.81796..."
               fill="currentColor"
             />
           </svg>
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {reviews.map((review, idx) => (
           <div
             key={idx}
+            ref={(el) => (cardsRef.current[idx] = el)}
             className="rounded-lg border border-[#E5E7EB] py-6 px-3 bg-white flex flex-col"
           >
             <div className="flex items-center space-x-4 mb-4">
@@ -90,8 +131,7 @@ export default function PopularCompanies() {
                 <img
                   src={review.image}
                   alt={review.name}
-                  layout="fill"
-                  style={{ objectFit: "cover" }}
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="flex flex-col">

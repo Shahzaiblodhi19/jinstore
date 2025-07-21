@@ -73,7 +73,7 @@ export default function BannerSlider() {
   }, [current]);
 
   return (
-    <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center py-4 lg:min-h-[500px] min-h-fit z">
+    <div  className="container mx-auto flex flex-col lg:flex-row items-center justify-center py-4 lg:min-h-[500px] min-h-fit z">
       {/* Sidebar space placeholder */}
       <div className="hidden lg:block w-80 flex-shrink-0 "></div>
 

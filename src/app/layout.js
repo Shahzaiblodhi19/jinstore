@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Head from "next/head"; // Add this if needed
+import ClientWrapper from "./components/ClientWrapper";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,11 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ Custom SVG Favicon */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={`${inter.variable} antialiased`}>
-        {children}
+        <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
   );
