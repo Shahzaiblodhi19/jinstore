@@ -75,7 +75,7 @@ export default function Blogs() {
                 src={article.image.src}
                 alt={article.title}
                 layout="fill"
-                objectFit="cover "
+                style={{ objectFit: "cover" }}
               />
               <span className="absolute top-3 left-3 bg-white text-[#634C9F] text-[11px] font-bold px-2 py-1 rounded-[6px]">
                 UNCATEGORIZED

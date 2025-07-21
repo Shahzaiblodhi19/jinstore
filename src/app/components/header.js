@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import Divider from "@mui/material/Divider";
 import {
   Radio,
@@ -471,11 +472,190 @@ export default function Header() {
   const [mobileNavOpen2, setmobileNavOpen2] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [activeNav, setactiveNav] = useState("home");
+  const headerRef = useRef(null);
+  const innerRef = useRef(null);
+
+  useEffect(() => {
+    // GSAP Timeline
+    const tl = gsap.timeline();
+
+    // Header slide from top
+    tl.fromTo(
+      headerRef.current,
+      { y: -50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }
+    );
+
+    // Inner items fade and scale up
+    tl.fromTo(
+      innerRef.current.children,
+      { opacity: 0, y: 20, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      },
+      "-=0.4"
+    );
+  }, []);
+  const leftNavRef = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      leftNavRef.current.children,
+      {
+        y: 10,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.15,
+        duration: 0.4,
+        ease: "power2.out",
+        delay: 0.4, // optional, for after header anim
+      }
+    );
+  }, []);
+  const topBarLinksRef = useRef(null);
+  useEffect(() => {
+    if (topBarLinksRef.current) {
+      gsap.fromTo(
+        topBarLinksRef.current.children,
+        {
+          y: -8,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.1,
+          ease: "power2.out",
+          delay: 0.6,
+        }
+      );
+    }
+  }, []);
+  const navLinksRef = useRef([]);
+  useEffect(() => {
+    gsap.fromTo(
+      navLinksRef.current,
+      { opacity: 0, y: -10 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: "power3.out",
+      }
+    );
+  }, []);
+  const headerRef2 = useRef(null);
+  const leftRef = useRef(null);
+  const centerRef = useRef(null);
+  const rightRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef2.current, {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+        ease: "power2.out",
+      });
+
+      gsap.from([leftRef.current, centerRef.current, rightRef.current], {
+        opacity: 0,
+        y: -30,
+        stagger: 0.2,
+        duration: 0.8,
+        delay: 0.5,
+        ease: "power2.out",
+      });
+    }, headerRef2);
+
+    return () => ctx.revert(); // cleanup
+  }, []);
+  const wrapperRef = useRef(null);
+  const dropdownRef = useRef(null);
+  // Animate with GSAP
+  useEffect(() => {
+    if (dropdownRef.current) {
+      if (categoryOpen) {
+        gsap.fromTo(
+          dropdownRef.current,
+          { opacity: 0, y: -10, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+            pointerEvents: "auto",
+            display: "block",
+          }
+        );
+      } else {
+        gsap.to(dropdownRef.current, {
+          opacity: 0,
+          y: -10,
+          scale: 0.98,
+          duration: 0.2,
+          ease: "power2.in",
+          onComplete: () => {
+            if (dropdownRef.current) {
+              dropdownRef.current.style.pointerEvents = "none";
+              dropdownRef.current.style.display = "none";
+            }
+          },
+        });
+      }
+    }
+  }, [categoryOpen]);
+  const leftLinksRef = useRef([]);
+  const rightLinksRef = useRef([]);
+
+  // Animate nav links when activeNav changes
+  useEffect(() => {
+    gsap.fromTo(
+      leftLinksRef.current,
+      { y: 10, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.05,
+      }
+    );
+    gsap.fromTo(
+      rightLinksRef.current,
+      { y: 10, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.05,
+      }
+    );
+  }, [activeNav]);
+  
 
   return (
     <>
-      <header className="bg-white py-3 text-white border-b border-[#E5E7EB] relative">
-        <div className="flex items-center justify-between container relative">
+      <header
+        ref={headerRef}
+        className="bg-white py-3 text-white border-b border-[#E5E7EB] relative"
+      >
+        <div
+          ref={innerRef}
+          className="flex items-center justify-between container relative"
+        >
           <div className="flex items-center gap-4 w-full lg:w-auto">
             <div className="flex lg:hidden justify-between items-center w-full">
               <div className="flex items-center gap-4">
@@ -575,7 +755,10 @@ export default function Header() {
             </div>
 
             {/* Left side */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div
+              ref={leftNavRef}
+              className="hidden lg:flex items-center space-x-4"
+            >
               <Link
                 href="/"
                 className={
@@ -622,334 +805,7 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Right side: Language & Currency */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <div className="relative inline-block">
-              <span
-                ref={langButtonRef2}
-                data-no-translate="true" // Mark so your translate code skips it
-                className="bg-transparent flex items-center gap-1 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                onClick={toggleLangSelector2}
-              >
-                {Languages[language2]}
-                <svg
-                  style={{
-                    transform: showSelector2
-                      ? "rotate(180deg)"
-                      : "rotate(0deg)",
-                    transition: "transform 0.3s ease-in-out",
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="8"
-                  height="10"
-                  viewBox="0 0 8 10"
-                  fill="none"
-                >
-                  <path
-                    d="M1 3L4 6.5L7 3"
-                    stroke="#6B7280"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <div className="relative">
-                <div
-                  ref={langDropdownRef2}
-                  className={`absolute ${
-                    alignLangRight2 === null
-                      ? "right-0"
-                      : alignLangRight2
-                      ? "right-0"
-                      : "left-0"
-                  } mt-4 transition-all duration-300 ease-in-out transform ${
-                    showSelector2
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-2 pointer-events-none"
-                  } z-50 bg-white border-1 border-[#E5E7EB]  w-57`}
-                >
-                  {loading2 ? (
-                    <div className="w-full flex justify-center items-center h-36">
-                      <GradientCircularProgress />
-                    </div>
-                  ) : (
-                    <>
-                      <FormControl
-                        component="fieldset"
-                        className="w-full scrollbar"
-                        style={{
-                          maxHeight: "800px",
-                          overflowY: "auto",
-                          scrollbarWidth: "thin", // Firefox
-                          scrollbarColor: "#634C9F transparent", // Firefox
-                        }}
-                      >
-                        {/* Header and English (outside RadioGroup, but same logic) */}
-                        <div className="border-b border-[#E5E7EB] p-3">
-                          <span className="text-[#6B7280] font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px]">
-                            Change language
-                          </span>
-
-                          <span
-                            data-no-translate="true"
-                            className="mt-2 flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                            onClick={() => {
-                              setLanguage2("en");
-                              handleTranslate2("en");
-                            }}
-                          >
-                            <Radio
-                              checked={language2 === "en"}
-                              value="en"
-                              name="language-selector"
-                              onChange={(e) => {
-                                setLanguage2(e.target.value);
-                                handleTranslate2(e.target.value);
-                              }}
-                              size="small"
-                              sx={{
-                                padding: 0,
-                                color: "#aaa",
-                                "&.Mui-checked": {
-                                  color: "#634C9F",
-                                },
-                                ".hm:hover &": {
-                                  color: "#634C9F",
-                                },
-                              }}
-                            />
-                            {"English - (en)"}
-                          </span>
-                        </div>
-
-                        {/* Other Languages in RadioGroup */}
-                        <RadioGroup
-                          value={language2}
-                          onChange={(e) => {
-                            const selectedLang2 = e.target.value;
-                            if (selectedLang2 !== "loading") {
-                              setLanguage2(selectedLang2);
-                              handleTranslate2(selectedLang2);
-                            }
-                          }}
-                          aria-label="language"
-                          name="language-selector"
-                          className="flex flex-col px-3 py-3 gap-2"
-                        >
-                          {Object.entries(Languages)
-                            .filter(([code]) => code !== "en") // Skip English
-                            .map(([code, name]) => (
-                              <span
-                                className="flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                                key={code}
-                                onClick={() => {
-                                  setLanguage2(code);
-                                  handleTranslate2(code);
-                                }}
-                              >
-                                <Radio
-                                  checked={language2 === code}
-                                  value={code}
-                                  size="small"
-                                  name="language-selector"
-                                  sx={{
-                                    padding: 0,
-                                    color: "#aaa",
-                                    "&.Mui-checked": {
-                                      color: "#634C9F",
-                                    },
-                                    ".hm:hover &": {
-                                      color: "#634C9F",
-                                    },
-                                  }}
-                                />
-                                {name} - {`(${code})`}
-                              </span>
-                            ))}
-                        </RadioGroup>
-                      </FormControl>
-                      <div className="border-t border-[#E5E7EB] pt-2 pb-4 px-3 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px]">
-                        You are Shopping on{" "}
-                        <span className="text-[#634C9F] font-[600]">
-                          {" "}
-                          Jin Store{" "}
-                        </span>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="relative inline-block">
-              <span
-                ref={currButtonRef2}
-                data-no-translate="true" // Mark so your translate code skips it
-                className="bg-transparent flex items-center gap-1 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                onClick={toggleCurrencySelector2}
-              >
-                {selectedCurrency2}
-                <svg
-                  style={{
-                    transform: showCurrencySelector2
-                      ? "rotate(180deg)"
-                      : "rotate(0deg)",
-                    transition: "transform 0.3s ease-in-out",
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="8"
-                  height="10"
-                  viewBox="0 0 8 10"
-                  fill="none"
-                >
-                  <path
-                    d="M1 3L4 6.5L7 3"
-                    stroke="#6B7280"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <div className="relative">
-                <div
-                  ref={currDropdownRef2}
-                  className={`absolute ${
-                    alignCurrRight2 === null
-                      ? "right-0"
-                      : alignCurrRight2
-                      ? "right-0"
-                      : "left-0"
-                  } mt-4 transition-all duration-300 ease-in-out transform ${
-                    showCurrencySelector2
-                      ? "opacity-100 translate-y-0 pointer-events-auto"
-                      : "opacity-0 translate-y-2 pointer-events-none invisible"
-                  } z-50 bg-white border border-[#E5E7EB] w-57`}
-                >
-                  {Currencyloading2 ? (
-                    <div className="w-full flex justify-center items-center h-36">
-                      <GradientCircularProgress />
-                    </div>
-                  ) : (
-                    <>
-                      <FormControl
-                        component="fieldset"
-                        className="w-full scrollbar"
-                        style={{
-                          maxHeight: "800px",
-                          overflowY: "auto",
-                          scrollbarWidth: "thin", // Firefox
-                          scrollbarColor: "#634C9F transparent", // Firefox
-                        }}
-                      >
-                        {/* Header and English (outside RadioGroup, but same logic) */}
-                        <div className="border-b border-[#E5E7EB] p-3">
-                          <span className="text-[#6B7280] font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px]">
-                            Change Currency
-                          </span>
-
-                          {usdCurrency && (
-                            <span
-                              data-no-translate="true"
-                              className="mt-2 flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                              onClick={() =>
-                                setSelectedCurrency2(usdCurrency.code)
-                              }
-                            >
-                              <Radio
-                                checked={selectedCurrency2 === usdCurrency.code}
-                                value={usdCurrency.code}
-                                name="currency-selector"
-                                onChange={(e) =>
-                                  setSelectedCurrency2(e.target.value)
-                                }
-                                size="small"
-                                sx={{
-                                  padding: 0,
-                                  color: "#aaa",
-                                  "&.Mui-checked": {
-                                    color: "#634C9F",
-                                  },
-                                  ".hm:hover &": {
-                                    color: "#634C9F",
-                                  },
-                                }}
-                              />
-                              {`${usdCurrency.code} - (${usdCurrency.symbol})`}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Other Languages in RadioGroup */}
-                        <RadioGroup
-                          value={selectedCurrency2}
-                          onChange={(e) => {
-                            const selectedCurrency2 = e.target.value;
-                            if (selectedCurrency2 !== "loading") {
-                              setSelectedCurrency2(selectedCurrency2);
-                            }
-                          }}
-                          aria-label="language"
-                          name="language-selector"
-                          className="flex flex-col px-3 py-3 gap-2"
-                        >
-                          {currencies
-                            .filter((c) => c.code !== "USD") // ✅ Skip USD
-                            .map((c) => (
-                              <span
-                                key={c.code}
-                                className="flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
-                                onClick={() => {
-                                  setSelectedCurrency2(c.code);
-                                }}
-                                data-no-translate="true"
-                              >
-                                <Radio
-                                  checked={selectedCurrency2 === c.code}
-                                  value={c.code}
-                                  size="small"
-                                  name="currency-selector"
-                                  sx={{
-                                    padding: 0,
-                                    color: "#aaa",
-                                    "&.Mui-checked": {
-                                      color: "#634C9F",
-                                    },
-                                    ".hm:hover &": {
-                                      color: "#634C9F",
-                                    },
-                                  }}
-                                />
-                                {`${c.code}`} - {`(${c.symbol})`}
-                              </span>
-                            ))}
-                        </RadioGroup>
-                      </FormControl>
-                      <div className="border-t border-[#E5E7EB] pt-2 pb-4 px-3 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px]">
-                        You are Shopping on{" "}
-                        <span className="text-[#634C9F] font-[600]">
-                          {" "}
-                          Jin Store{" "}
-                        </span>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-            {/* Order Tracking Link */}
-            <Link
-              href="/"
-              onClick={() => setactiveNav("tracking")}
-              className={
-                "text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer" +
-                (activeNav === "tracking" ? " text-[#634C9F]" : "")
-              }
-            >
-              Order Tracking
-            </Link>
-          </div>
+          
         </div>
 
         <div
@@ -1359,14 +1215,355 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <header className="container py-3 bg-white hidden lg:flex items-center justify-between">
+      <div className="container hidden lg:flex relative">
+      {/* Right side: Language & Currency */}
+          <div
+            className="hidden lg:flex items-center space-x-4 absolute right-0 -top-9"
+            ref={topBarLinksRef}
+          >
+            <div className="relative inline-block z-[9999]" >
+              <span
+                ref={langButtonRef2}
+                data-no-translate="true" // Mark so your translate code skips it
+                className="bg-transparent flex items-center gap-1 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                onClick={toggleLangSelector2}
+              >
+                {Languages[language2]}
+                <svg
+                  style={{
+                    transform: showSelector2
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                    transition: "transform 0.3s ease-in-out",
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="10"
+                  viewBox="0 0 8 10"
+                  fill="none"
+                >
+                  <path
+                    d="M1 3L4 6.5L7 3"
+                    stroke="#6B7280"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <div className="relative overflow-visible z-[9999]">
+                <div
+                  ref={langDropdownRef2}
+                  className={`absolute ${
+                    alignLangRight2 === null
+                      ? "right-0"
+                      : alignLangRight2
+                      ? "right-0"
+                      : "left-0"
+                  } mt-4 transition-all duration-300 ease-in-out transform ${
+                    showSelector2
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-2 pointer-events-none"
+                  } z-[9999] bg-white border-1 border-[#E5E7EB]  w-57`}
+                  
+                  
+                >
+                  {loading2 ? (
+                    <div className="w-full flex justify-center items-center h-36">
+                      <GradientCircularProgress />
+                    </div>
+                  ) : (
+                    <>
+                      <FormControl
+                        component="fieldset"
+                        className="w-full scrollbar"
+                        style={{
+                          maxHeight: "800px",
+                          overflowY: "auto",
+                          scrollbarWidth: "thin", // Firefox
+                          scrollbarColor: "#634C9F transparent", // Firefox
+                        }}
+                      >
+                        {/* Header and English (outside RadioGroup, but same logic) */}
+                        <div className="border-b border-[#E5E7EB] p-3">
+                          <span className="text-[#6B7280] font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px]">
+                            Change language
+                          </span>
+
+                          <span
+                            data-no-translate="true"
+                            className="mt-2 flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                            onClick={() => {
+                              setLanguage2("en");
+                              handleTranslate2("en");
+                            }}
+                          >
+                            <Radio
+                              checked={language2 === "en"}
+                              value="en"
+                              name="language-selector"
+                              onChange={(e) => {
+                                setLanguage2(e.target.value);
+                                handleTranslate2(e.target.value);
+                              }}
+                              size="small"
+                              sx={{
+                                padding: 0,
+                                color: "#aaa",
+                                "&.Mui-checked": {
+                                  color: "#634C9F",
+                                },
+                                ".hm:hover &": {
+                                  color: "#634C9F",
+                                },
+                              }}
+                            />
+                            {"English - (en)"}
+                          </span>
+                        </div>
+
+                        {/* Other Languages in RadioGroup */}
+                        <RadioGroup
+                          value={language2}
+                          onChange={(e) => {
+                            const selectedLang2 = e.target.value;
+                            if (selectedLang2 !== "loading") {
+                              setLanguage2(selectedLang2);
+                              handleTranslate2(selectedLang2);
+                            }
+                          }}
+                          aria-label="language"
+                          name="language-selector"
+                          className="flex flex-col px-3 py-3 gap-2"
+                        >
+                          {Object.entries(Languages)
+                            .filter(([code]) => code !== "en") // Skip English
+                            .map(([code, name]) => (
+                              <span
+                                className="flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                                key={code}
+                                onClick={() => {
+                                  setLanguage2(code);
+                                  handleTranslate2(code);
+                                }}
+                              >
+                                <Radio
+                                  checked={language2 === code}
+                                  value={code}
+                                  size="small"
+                                  name="language-selector"
+                                  sx={{
+                                    padding: 0,
+                                    color: "#aaa",
+                                    "&.Mui-checked": {
+                                      color: "#634C9F",
+                                    },
+                                    ".hm:hover &": {
+                                      color: "#634C9F",
+                                    },
+                                  }}
+                                />
+                                {name} - {`(${code})`}
+                              </span>
+                            ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <div className="border-t border-[#E5E7EB] pt-2 pb-4 px-3 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px]">
+                        You are Shopping on{" "}
+                        <span className="text-[#634C9F] font-[600]">
+                          {" "}
+                          Jin Store{" "}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="relative inline-block">
+              <span
+                ref={currButtonRef2}
+                data-no-translate="true" // Mark so your translate code skips it
+                className="bg-transparent flex items-center gap-1 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                onClick={toggleCurrencySelector2}
+              >
+                {selectedCurrency2}
+                <svg
+                  style={{
+                    transform: showCurrencySelector2
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                    transition: "transform 0.3s ease-in-out",
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="10"
+                  viewBox="0 0 8 10"
+                  fill="none"
+                >
+                  <path
+                    d="M1 3L4 6.5L7 3"
+                    stroke="#6B7280"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <div className="relative">
+                <div
+                  ref={currDropdownRef2}
+                  className={`absolute ${
+                    alignCurrRight2 === null
+                      ? "right-0"
+                      : alignCurrRight2
+                      ? "right-0"
+                      : "left-0"
+                  } mt-4 transition-all duration-300 ease-in-out transform ${
+                    showCurrencySelector2
+                      ? "opacity-100 translate-y-0 pointer-events-auto"
+                      : "opacity-0 translate-y-2 pointer-events-none invisible"
+                  } z-50 bg-white border border-[#E5E7EB] w-57`}
+                >
+                  {Currencyloading2 ? (
+                    <div className="w-full flex justify-center items-center h-36">
+                      <GradientCircularProgress />
+                    </div>
+                  ) : (
+                    <>
+                      <FormControl
+                        component="fieldset"
+                        className="w-full scrollbar"
+                        style={{
+                          maxHeight: "800px",
+                          overflowY: "auto",
+                          scrollbarWidth: "thin", // Firefox
+                          scrollbarColor: "#634C9F transparent", // Firefox
+                        }}
+                      >
+                        {/* Header and English (outside RadioGroup, but same logic) */}
+                        <div className="border-b border-[#E5E7EB] p-3">
+                          <span className="text-[#6B7280] font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px]">
+                            Change Currency
+                          </span>
+
+                          {usdCurrency && (
+                            <span
+                              data-no-translate="true"
+                              className="mt-2 flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                              onClick={() =>
+                                setSelectedCurrency2(usdCurrency.code)
+                              }
+                            >
+                              <Radio
+                                checked={selectedCurrency2 === usdCurrency.code}
+                                value={usdCurrency.code}
+                                name="currency-selector"
+                                onChange={(e) =>
+                                  setSelectedCurrency2(e.target.value)
+                                }
+                                size="small"
+                                sx={{
+                                  padding: 0,
+                                  color: "#aaa",
+                                  "&.Mui-checked": {
+                                    color: "#634C9F",
+                                  },
+                                  ".hm:hover &": {
+                                    color: "#634C9F",
+                                  },
+                                }}
+                              />
+                              {`${usdCurrency.code} - (${usdCurrency.symbol})`}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Other Languages in RadioGroup */}
+                        <RadioGroup
+                          value={selectedCurrency2}
+                          onChange={(e) => {
+                            const selectedCurrency2 = e.target.value;
+                            if (selectedCurrency2 !== "loading") {
+                              setSelectedCurrency2(selectedCurrency2);
+                            }
+                          }}
+                          aria-label="language"
+                          name="language-selector"
+                          className="flex flex-col px-3 py-3 gap-2"
+                        >
+                          {currencies
+                            .filter((c) => c.code !== "USD") // ✅ Skip USD
+                            .map((c) => (
+                              <span
+                                key={c.code}
+                                className="flex hm items-center gap-2 group text-[#6B7280] hover:text-[#634C9F] hover:underline font-[Inter] text-[0.85em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer"
+                                onClick={() => {
+                                  setSelectedCurrency2(c.code);
+                                }}
+                                data-no-translate="true"
+                              >
+                                <Radio
+                                  checked={selectedCurrency2 === c.code}
+                                  value={c.code}
+                                  size="small"
+                                  name="currency-selector"
+                                  sx={{
+                                    padding: 0,
+                                    color: "#aaa",
+                                    "&.Mui-checked": {
+                                      color: "#634C9F",
+                                    },
+                                    ".hm:hover &": {
+                                      color: "#634C9F",
+                                    },
+                                  }}
+                                />
+                                {`${c.code}`} - {`(${c.symbol})`}
+                              </span>
+                            ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <div className="border-t border-[#E5E7EB] pt-2 pb-4 px-3 text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px]">
+                        You are Shopping on{" "}
+                        <span className="text-[#634C9F] font-[600]">
+                          {" "}
+                          Jin Store{" "}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Order Tracking Link */}
+            <Link
+              href="/"
+              onClick={() => setactiveNav("tracking")}
+              className={
+                "text-[#6B7280] font-[Inter] text-[0.75em] font-[400] leading-normal tracking-[-0.32px] cursor-pointer" +
+                (activeNav === "tracking" ? " text-[#634C9F]" : "")
+              }
+            >
+              Order Tracking
+            </Link>
+          </div>
+          </div>
+      <header
+        ref={headerRef2}
+        className="container py-3 bg-white hidden lg:flex items-center justify-between"
+      >
         {/* Left: Logo & Brand */}
-        <div className="block">
+        <div ref={leftRef} className="block">
           <Image src={Logo} alt="logo" style={{ width: "100%" }} />
         </div>
 
         {/* Center: Location + Search */}
-        <div className="hidden lg:flex items-center flex-1 mx-8">
+        <div
+          ref={centerRef}
+          className="hidden lg:flex items-center flex-1 mx-8"
+        >
           <div className="flex items-center space-x-3 mr-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1418,7 +1615,7 @@ export default function Header() {
         </div>
 
         {/* Right: User actions */}
-        <div className="flex items-center space-x-5">
+        <div ref={rightRef} className="flex items-center space-x-5">
           <div className="flex items-center text-[10px] text-gray-800 gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1490,10 +1687,15 @@ export default function Header() {
       </header>
       <div className="container mx-auto flex items-center lg:items-end pt-3 relative">
         {/* All Categories */}
-        <div className="hidden lg:block relative catbtn w-95 hover:bg-gray-100">
+        <div
+          ref={wrapperRef}
+          className="hidden lg:block relative catbtn w-95 hover:bg-gray-100"
+        >
           <button
-            onClick={() => setCategoryOpen(!categoryOpen)}
-            className="flex items-center justify-between px-4.5 py-2.5  w-full"
+            onClick={() => setCategoryOpen((prev) => !prev)}
+            aria-haspopup="true"
+            aria-expanded={categoryOpen}
+            className="flex items-center justify-between px-4.5 py-2.5 w-full"
           >
             <div className="flex items-center gap-2">
               <svg
@@ -1536,6 +1738,7 @@ export default function Header() {
             </svg>
           </button>
           <div
+            ref={leftNavRef}
             className={`absolute top-8 left-0 mt-2 bg-white border border-[#E5E7EB] w-full z-10 transition-all duration-300 ease-out transform
     ${
       categoryOpen
@@ -1544,6 +1747,7 @@ export default function Header() {
     }`}
           >
             <Link
+            ref={navLinksRef}
               href="#"
               className="flex items-center justify-between text-[14px] px-4  py-3 border-b border-[#E5E7EB]  w-full text-[#030712] hover:bg-gray-100"
             >
@@ -1924,76 +2128,46 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Navigation Items */}
         <div className="hidden lg:flex items-center justify-between border-b pl-8 border-[#e5e7eb] w-full">
+          {/* Left nav links */}
           <div className="flex items-center gap-6">
-            <Link
-              onClick={() => setactiveNav("home")}
-              href="/"
-              className={`navLink ${activeNav === "home" ? "active" : ""}`}
-            >
-              Home
-            </Link>
-
-            <Link
-              onClick={() => setactiveNav("shop")}
-              href="/"
-              className={`navLink ${activeNav === "shop" ? "active" : ""}`}
-            >
-              Shop
-            </Link>
-
-            <Link
-              onClick={() => setactiveNav("fruitsvegitables")}
-              href="/"
-              className={`navLink ${
-                activeNav === "fruitsvegitables" ? "active" : ""
-              }`}
-            >
-              Fruits & Vegetables
-            </Link>
-
-            <Link
-              onClick={() => setactiveNav("beverges")}
-              href="/"
-              className={`navLink ${activeNav === "beverges" ? "active" : ""}`}
-            >
-              Beverages
-            </Link>
-
-            <Link
-              onClick={() => setactiveNav("blog")}
-              href="/"
-              className={`navLink ${activeNav === "blog" ? "active" : ""}`}
-            >
-              Blog
-            </Link>
-
-            <Link
-              onClick={() => setactiveNav("contact")}
-              href="/"
-              className={`navLink ${activeNav === "contact" ? "active" : ""}`}
-            >
-              Contact
-            </Link>
+            {[
+              { label: "Home", key: "home" },
+              { label: "Shop", key: "shop" },
+              { label: "Fruits & Vegetables", key: "fruitsvegitables" },
+              { label: "Beverages", key: "beverges" },
+              { label: "Blog", key: "blog" },
+              { label: "Contact", key: "contact" },
+            ].map((item, index) => (
+              <Link
+                key={item.key}
+                href="/"
+                onClick={() => setactiveNav(item.key)}
+                className={`navLink ${activeNav === item.key ? "active" : ""}`}
+                ref={(el) => (leftLinksRef.current[index] = el)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
+          {/* Right nav links */}
           <div className="flex items-center gap-6">
             <Link
               href="/"
-              className={`navLink ${activeNav === "trending" ? "active" : ""}`}
               onClick={() => setactiveNav("trending")}
+              className={`navLink ${activeNav === "trending" ? "active" : ""}`}
+              ref={(el) => (rightLinksRef.current[0] = el)}
             >
               Trending Products
             </Link>
-
             <Link
-              onClick={() => setactiveNav("almost-finished")}
               href="/"
-              className={
-                "navLink flex items-center gap-1.5 almostFinished " +
-                (activeNav === "almost-finished" ? "active" : "")
-              }
+              onClick={() => setactiveNav("almost-finished")}
+              className={`navLink flex items-center gap-1.5 almostFinished ${
+                activeNav === "almost-finished" ? "active" : ""
+              }`}
+              ref={(el) => (rightLinksRef.current[1] = el)}
             >
               Almost Finished
               <span className="saleBadge">SALE</span>
