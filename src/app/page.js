@@ -13,6 +13,9 @@ import FeaturedProducts from "./components/FeaturedProducts";
 import WeeklyDeals3 from "./components/WeeklyDeals3";
 import BestSellers from "./components/BestSellers";
 import Discount50Banner from "./components/discount50Banner";
+import Blogs from "./components/Blogs";
+import PopularCompanies from "./components/popularCompanies";
+import Footer from "./components/Footer";
 
 export default function TranslatePage() {
   return (
@@ -30,6 +33,9 @@ export default function TranslatePage() {
       <WeeklyDeals3 />
       <BestSellers />
       <Discount50Banner  />
+      <Blogs />
+      <PopularCompanies />
+      <Footer />
     </div>
   );
 }
