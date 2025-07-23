@@ -808,11 +808,13 @@ export default function Header() {
           
         </div>
 
-        <div
+    
+      </header> 
+          <div
           className={`transition-transform duration-300 ease-in-out transform 
   ${mobileNavOpen ? "translate-x-0" : "-translate-x-full"} 
   absolute top-0 left-0 lg:hidden bg-white w-65 
-  sm:h-[calc(100vh-75px)] h-[calc(100vh-95px)] 
+  h-screen
   z-50 shadow-md`}
         >
           <div className="relative px-7 py-4 ">
@@ -1214,7 +1216,6 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </header>
       <div className="container hidden lg:flex relative">
       {/* Right side: Language & Currency */}
           <div
@@ -1381,7 +1382,7 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="relative inline-block">
+            <div className="relative inline-block z-[9999]">
               <span
                 ref={currButtonRef2}
                 data-no-translate="true" // Mark so your translate code skips it
@@ -1411,7 +1412,7 @@ export default function Header() {
                   />
                 </svg>
               </span>
-              <div className="relative">
+              <div className="relative z-[9999]">
                 <div
                   ref={currDropdownRef2}
                   className={`absolute ${
@@ -1424,7 +1425,7 @@ export default function Header() {
                     showCurrencySelector2
                       ? "opacity-100 translate-y-0 pointer-events-auto"
                       : "opacity-0 translate-y-2 pointer-events-none invisible"
-                  } z-50 bg-white border border-[#E5E7EB] w-57`}
+                  } z-[9999] bg-white border border-[#E5E7EB] w-57`}
                 >
                   {Currencyloading2 ? (
                     <div className="w-full flex justify-center items-center h-36">
