@@ -181,7 +181,7 @@ const NewArrivals = () => {
           {products.map((item) => (
             <div
               key={item.id}
-             className="product-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col justify-between">
+             className="product-card bg-white p-4 border border-[#E5E7EB]  group h-full flex flex-col justify-between">
 
               <div className="relative mb-4">
                 <Link href={"/"}>

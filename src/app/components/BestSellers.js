@@ -217,7 +217,7 @@ export default function BestSellers() {
             return (
               <div
                 key={product.id}
-             className="product-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col justify-between">
+             className="product-card bg-white  p-4 border border-[#E5E7EB]  group h-full flex flex-col justify-between">
             
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="relative w-full sm:w-fit">
@@ -557,7 +557,7 @@ export default function BestSellers() {
             return (
               <div
                 key={product.id}
-                             className="product-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col justify-between">
+                             className="product-card bg-white  p-4 border border-[#E5E7EB]  group h-full flex flex-col justify-between">
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="relative w-full sm:w-fit">
